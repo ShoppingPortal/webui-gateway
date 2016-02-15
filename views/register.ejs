@@ -1,0 +1,99 @@
+    
+<html>
+ <head>
+         <meta charset="utf-8">
+         <title>Getting started with Bootstrap</title>
+  		  
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css"></link> 
+        <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-theme.css"></link>  
+         
+		<style>
+            body { margin-top:30px; }
+            #login-nav input { margin-bottom: 15px; }
+            img.cart{
+                   height: 35px;
+                margin-top: 6px;
+                width: 40px;
+                float:left;
+            }
+            #login{
+                margin-top: 45px;
+            }
+		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+ </head>
+ <body>
+<div class="container">
+   <div class="row">
+      <div class="col-md-12">
+         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <img class="cart" src="/images/cart.jpg"/>
+               <a class="navbar-brand" href="/api/user">Web Cart </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-nav">
+                  <li class="active"><a href="/api/user">Register</a></li>
+                  <li><a href="/api/seller">Seller</a></li>
+                  <li><a href="/api/buyer">Buyer</a></li>
+                  <li><a href="/api/product">Product</a></li>
+               </ul>
+              
+            </div>
+            <!-- /.navbar-collapse -->
+         </nav>
+      </div>
+   </div>
+   <div id="login">
+                <div class="row centered-form">
+                    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title" style="display:inline-block;">Register</h2>
+                            </div>
+                            <div class="panel-body">
+                                <form role="form" name="myLogin" id="myLogin" method="POST" action="/api/user">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                            <label>User</label>
+                                                <input type="text" name="username" id="username" ng-minlength="3"  ng-maxlength="8" required class="form-control " placeholder="User name" >
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                            <div class="form-group">
+                                             <label>Type</label>
+                                                <select class="form-control" name="type" id="type">
+                                                        <option>Select</option>
+                                                        <option value="S">Seller</option>
+                                                        <option value="B">Buyer</option>
+                                                </select>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Submit" class="btn btn-info btn-block" style="font-weight:bold">
+                                   
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+   </div>
+ </body>
+</html>
+	<script src="/javascripts/bootstrap.js"></script>
