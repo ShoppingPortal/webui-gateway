@@ -72,7 +72,7 @@
                                                         <option>Select</option>
                                                         <% if (product.length) { %>
                                                            <% product.forEach(function(products){ %>
-                                                             <option><%= products['product'] %></option>
+                                                             <option><%= products['product_name'] %></option>
                                                           <% }) %>
                                                       <% } %>
                                                 </select>
@@ -84,9 +84,12 @@
                                             <div class="form-group">
                                              <label>Buyer</label>
                                                 <select class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Sony</option>
-                                                        <option>Dell</option>
+                                                       <option>Select</option>
+                                                        <% if (buyer.length) { %>
+                                                           <% buyer.forEach(function(buyers){ %>
+                                                             <option><%= buyers['user_name'] %></option>
+                                                          <% }) %>
+                                                      <% } %>
                                                 </select>
                                                 
                                             </div>

@@ -42,6 +42,25 @@ REST_ROUTER.prototype.getSeller= function(router,connection,md5,res, callback) {
         });
 }
 
+REST_ROUTER.prototype.getBuyer= function(router,connection,md5,res, callback) {
+    var query = "SELECT * FROM ?? WHERE user_type='B'";
+        var table = ["user"];
+        var buyer = [];
+        query = mysql.format(query,table);
+        connection.query(query,function(err,rows){
+            if(err) {
+                res.json({"Error" : true, "Message" : err});
+            } else {
+               
+                 for( var i in rows){               
+                    buyer.push(rows[i]);
+                }
+                callback(buyer);
+            }
+        });
+}
+
+
 REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
     var self = this;
     router.get("/user",function(req,res){
@@ -49,8 +68,10 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
     });
 
     router.get("/buyer",function(req,res){
-         self.getProduct(router,connection,md5, function(result){
-          res.render('buyer', { product: result});
+        self.getProduct(router,connection,md5, function(product){
+            self.getBuyer(router,connection,md5,res,  function(buyer){
+              res.render('buyer', { product: product, buyer: buyer});
+           });
         });
     });
 
@@ -61,9 +82,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
             self.getSeller(router,connection,md5,res,  function(seller){
               res.render('seller', { product: product, seller: seller});
            });
-
         });
-
     });
 
     router.get("/product",function(req,res){
@@ -82,14 +101,18 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {
                 if(type=="S"){
-                   self.getProduct(router,connection,md5, function(result){
-                      res.render('seller', { product: result});
+                    self.getProduct(router,connection,md5, function(product){
+                        self.getSeller(router,connection,md5,res,  function(seller){
+                          res.render('seller', { product: product, seller: seller});
+                       });
                     });
                 }
                 else{
-                   self.getProduct(router,connection,md5, function(result){
-                     res.render('buyer', { product: result});
-                  });
+                   self.getProduct(router,connection,md5, function(product){
+                        self.getBuyer(router,connection,md5,res,  function(buyer){
+                          res.render('buyer', { product: product, buyer: buyer});
+                       });
+                    });
                 }
             }
         });
@@ -97,7 +120,7 @@ REST_ROUTER.prototype.handleRoutes= function(router,connection,md5) {
 
     router.post("/product",function(req,res){
         var query = "INSERT INTO ??(??,??) VALUES (?,?)";
-        var table = ["product","product","description",req.body.product, req.body.description];
+        var table = ["product","product_name","description",req.body.product, req.body.description];
         query = mysql.format(query,table);
         connection.query(query,function(err,rows){
             if(err) {
