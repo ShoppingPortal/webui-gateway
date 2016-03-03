@@ -1,11 +1,19 @@
 var express = require("express");
 var mysql   = require("mysql");
 var bodyParser  = require("body-parser");
-var md5 = require('MD5');
+//var md5 = require('MD5');
 var ejs = require('ejs');
 var path = require('path');
 
 var rest = require("./rest.js");
+
+var ServiceProvider = require("./ServiceProvider");
+var serviceProvider = new ServiceProvider();
+
+var GatewayService = require("./GatewayService");
+var gatewayService = new GatewayService(serviceProvider);
+
+
 var app  = express();
 
 function REST(){
@@ -20,7 +28,7 @@ REST.prototype.connectMysql = function() {
         host     : 'localhost',
         user     : 'root',
         password : 'root',
-        database : 'test',
+        database : 'shopping_portal',
         debug    :  false
     });
     pool.getConnection(function(err,connection){
@@ -42,7 +50,7 @@ REST.prototype.configureExpress = function(connection) {
       
       var router = express.Router();
       app.use('/api', router);
-      var rest_router = new rest(router,connection,md5);
+      var rest_router = new rest(router,connection, gatewayService);
       self.startServer();
 }
 
