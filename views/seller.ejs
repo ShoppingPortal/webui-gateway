@@ -73,7 +73,7 @@
                                                         <option>Select</option>
                                                         <% if (product.length) { %>
                                                            <% product.forEach(function(products){ %>
-                                                             <option><%= products['product_name'] %></option>
+                                                             <option><%= products['productName'] %></option>
                                                           <% }) %>
                                                       <% } %>
                                                 </select>
@@ -89,7 +89,7 @@
                                                          <option>Select</option>
                                                         <% if (seller.length) { %>
                                                            <% seller.forEach(function(sellers){ %>
-                                                             <option><%= sellers['user_name'] %></option>
+                                                             <option><%= sellers['userName'] %></option>
                                                           <% }) %>
                                                       <% } %>
                                                 </select>
