@@ -5,12 +5,12 @@ function GatewayService(serviceProvider) {
 	self.loaded = false;
 
 	self.serviceProvider.getNodeByServiceName("GATEWAY-SERVICE", function(err, node) {
-		console.log(node);
-		if(node) {
+		if(err) {
+			console.log(err);
+			//callback(err);
+		} else {
 			self.loaded = true;
 			self.baseURL = "http://" + node.Address + ":" + node.ServicePort;
-		} else {
-			console.log("error: gateway service down")
 		}
 	});
 }
@@ -24,11 +24,87 @@ GatewayService.prototype.getProducts = function(callback) {
 				callback(err);
 			} else {
 				result = JSON.parse(result);
-				callback(null, result.data);
+				if(result.status == 500){
+					callback("internal server error");
+				}else{
+					callback(null, result.data);
+				}
 			}
 		});
 	} else {
-		console.log("Service not ready.");
+		callback("Service not ready.");
+	}
+};
+
+GatewayService.prototype.addUser = function(data, callback) {
+	self = this;
+	if(self.loaded) {
+		var url = self.baseURL + "/user/addUser";
+		request({
+			"method": 'POST',
+			"url": url,
+			"headers": {
+				"content-type":"application/json"
+			},
+			"body": JSON.stringify(data)
+		}, function(err, response, result) {
+			result = JSON.parse(result);
+			if(result.status == 400){
+				callback(result.description);
+			}else{
+				callback(err, result);
+			}
+		});
+	} else {
+		callback("Service not ready.");
+	}
+};
+
+GatewayService.prototype.addInventory = function(data, callback) {
+	self = this;
+	if(self.loaded) {
+		var url = self.baseURL + "/inventory/create";
+		request({
+			"method": 'POST',
+			"url": url,
+			"headers": {
+				"content-type":"application/json"
+			},
+			"body": JSON.stringify(data)
+		}, function(err, response, result) {
+			result = JSON.parse(result);			
+			if(result.status == 500){
+				callback("Internal server error");
+			}else{
+				callback(err, result);
+			}
+		});
+	} else {
+		callback("Service not ready.");
+	}
+};
+
+GatewayService.prototype.addOrder = function(data, callback) {
+	self = this;
+	if(self.loaded) {
+		var url = self.baseURL + "/api/order/insert";
+		request({
+			"method": 'POST',
+			"url": url,
+			"headers": {
+				"content-type":"application/json"
+			},
+			"body": JSON.stringify(data)
+		}, function(err, response, result) {
+			result = JSON.parse(result);
+			console.dir(data);			
+			if(result.status == 500){
+				callback("Internal server error");
+			}else{
+				callback(err, result);
+			}
+		});
+	} else {
 		callback("Service not ready.");
 	}
 };
@@ -45,10 +121,14 @@ GatewayService.prototype.addProduct = function(data, callback) {
 			},
 			"body": JSON.stringify(data)
 		}, function(err, response, result) {
-			callback(err, result);
+			result = JSON.parse(result);
+			if(result.status == 500){
+				callback(result.error);
+			}else{
+				callback(err, result);
+			}
 		});
 	} else {
-		console.log("Service not ready.");
 		callback("Service not ready.");
 	}
 };
@@ -77,15 +157,18 @@ GatewayService.prototype.getUsers = function(params, callback) {
 			"url" : url,
 			"qs" : query
 		}, function(err, response, result) {
+			result = JSON.parse(result);	
 			if(err){
 				callback(err);
 			} else {
-				result = JSON.parse(result);
-				callback(null, result.data);
+				if(result.status == 500){
+					callback("internal server error");
+				}else{
+					callback(null, result.data);
+				}
 			}
 		});
 	} else {
-		console.log("Service not ready.");
 		callback("Service not ready.");
 	}
 };
