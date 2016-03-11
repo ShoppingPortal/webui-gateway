@@ -23,7 +23,7 @@ function REST(){
 
 REST.prototype.connectMysql = function() {
     var self = this;
-    var pool      =    mysql.createPool({
+    var pool = mysql.createPool({
         connectionLimit : 100,
         host     : 'localhost',
         user     : 'root',
@@ -38,7 +38,7 @@ REST.prototype.connectMysql = function() {
           self.configureExpress(connection);
         }
     });
-} 
+}
 
 REST.prototype.configureExpress = function(connection) {
       var self = this;
@@ -55,8 +55,8 @@ REST.prototype.configureExpress = function(connection) {
 }
 
 REST.prototype.startServer = function() {
-      app.listen(3000,function(){
-          console.log("All right ! I am alive at Port 3000.");
+      app.listen(3002,function(){
+          console.log("All right ! I am alive at Port 3002.");
       });
 }
 
@@ -66,3 +66,13 @@ REST.prototype.stop = function(err) {
 }
 
 new REST();
+
+app.use(function(err, req, res, next) {
+	console.log('inside error');
+	//check not found error
+	if(err.status == 404){
+		res.render('404.ejs', { url: req.url });
+	}else{
+		res.render('500.ejs', { url: req.url });
+	}
+});

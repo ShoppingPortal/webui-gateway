@@ -1,4 +1,3 @@
-    
 <!DOCTYPE html>
  <html>
  <head>
@@ -63,16 +62,16 @@
                                 <h2 class="panel-title" style="display:inline-block;">Buyer</h2>
                             </div>
                             <div class="panel-body">
-                                <form role="form" name="myLogin" id="myLogin">
+                                <form role="form" name="myLogin" id="myLogin" method="POST" action="/api/order">
                                     <div class="row">
                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="form-group">
                                              <label>Product</label>
-                                                <select class="form-control">
+                                                <select class="form-control" name="product">
                                                         <option>Select</option>
                                                         <% if (product.length) { %>
                                                            <% product.forEach(function(products){ %>
-                                                             <option><%= products['productName'] %></option>
+                                                             <option value=<%= products['id'] %>><%= products['productName'] %></option>
                                                           <% }) %>
                                                       <% } %>
                                                 </select>
@@ -83,11 +82,11 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12">
                                             <div class="form-group">
                                              <label>Buyer</label>
-                                                <select class="form-control">
+                                                <select class="form-control" name="buyerName">
                                                        <option>Select</option>
                                                         <% if (buyer.length) { %>
                                                            <% buyer.forEach(function(buyers){ %>
-                                                             <option><%= buyers['userName'] %></option>
+                                                             <option value=<%= buyers['id'] %>><%= buyers['userName'] %></option>
                                                           <% }) %>
                                                       <% } %>
                                                 </select>
@@ -99,14 +98,14 @@
                                         <div class="col-xs-12 col-sm-6">
                                             <div class="form-group">
                                                 <label>Quantity</label>
-                                                <input type="text" name="username" ng-model="username" id="username" ng-minlength="3"  ng-maxlength="8" required class="form-control " placeholder="Quantity" >
+                                                <input type="text" name="quantity" ng-model="quantity" id="quantity" ng-minlength="3"  ng-maxlength="8" required class="form-control " placeholder="Quantity" >
                                                 
                                             </div>
                                         </div>
                                         <div class="col-xs-12 col-sm-6">
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input type="text" name="username" ng-model="username" id="username" ng-minlength="3"  ng-maxlength="8" required class="form-control " placeholder="Price" >
+                                                <input type="text" name="price" ng-model="Price" id="Price" ng-minlength="3"  ng-maxlength="8" required class="form-control " placeholder="Price" >
                                                 
                                             </div>
                                         </div>
